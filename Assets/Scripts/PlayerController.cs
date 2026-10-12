@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 using Unity.VisualScripting;
 using System;
 
-public class PlayerControlerj : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     private InputAction movimiento;
     private Vector3 direccion;
@@ -15,18 +15,19 @@ public class PlayerControlerj : MonoBehaviour
     
     void Start()
     {
-        movimiento= InputSystem.actions.FindAction("Move");
-        movimiento.Enable();
+        if (InputSystem.actions.FindAction("Move") != null)
+        {
+            movimiento = InputSystem.actions.FindAction("Move");
+            movimiento.Enable();
+        }
     }
 
     
     void Update()
     {
         direccion = movimiento.ReadValue<Vector2>();
-        Debug.Log(direccion);
         posicion.x = direccion.x * Time.deltaTime * velocidad;
-        Debug.Log (posicion.x);
-        if ((!(transform.position.x < 8) && posicion.x > 0) || (!(transform.position.x > -8) && posicion.x < 0))
+        if (((transform.position.x > 8) && posicion.x > 0) || ((transform.position.x < -8) && posicion.x < 0))
         {
             posicion = Vector3.zero;
         }
